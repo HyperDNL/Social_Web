@@ -1,5 +1,5 @@
 import express from "express";
-import indexRoutes from "./routes/users.routes.js";
+import userRoutes from "./routes/users.routes.js";
 import { connectDB } from "./utils/database.js";
 import { COOKIE_SECRET, PORT, WHITELISTED_DOMAINS } from "./config/config.js";
 import session from "express-session";
@@ -48,6 +48,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Rutas
-app.use(indexRoutes);
+app.use("/users", userRoutes);
 
 export default app;
