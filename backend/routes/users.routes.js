@@ -22,6 +22,7 @@ router.post(
 router.post("/refreshToken", refreshToken);
 
 router.get("/profile", verifyUser, profile);
+
 router.get("/logout", verifyUser, logout);
 
 export default router;

@@ -7,15 +7,6 @@ import {
 import { REFRESH_TOKEN_SECRET } from "../config/config.js";
 import jwt from "jsonwebtoken";
 
-export const getUsers = async (req, res) => {
-  try {
-    const users = await User.find();
-    return res.json(users);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
-
 export const signup = async (req, res) => {
   try {
     const { name, last_name, username, email, password } = req.body;
