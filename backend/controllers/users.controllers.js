@@ -123,7 +123,7 @@ export const logout = (req, res, next) => {
           res.statusCode = 500;
           res.send(err);
         } else {
-          res.clearCookie("refreshToken", COOKIE_OPTIONS);
+          res.clearCookie("refreshToken");
           res.send({ success: true });
         }
       });
