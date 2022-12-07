@@ -1,3 +1,4 @@
+import { deleteImage, uploadImage } from "../libs/cloudinary.js";
 import User from "../models/User.js";
 import {
   getToken,
@@ -6,13 +7,22 @@ import {
 } from "../helpers/authenticate.js";
 import { REFRESH_TOKEN_SECRET } from "../config/config.js";
 import jwt from "jsonwebtoken";
+import fs from "fs-extra";
 
 export const signup = async (req, res) => {
   try {
     const { name, last_name, username, email, password } = req.body;
+    const errors = [];
     const emailUser = await User.findOne({ email: email });
+    const usernameVerify = await User.findOne({ username: username });
     if (emailUser) {
-      res.json({ message: "The E-Mail is already in use." });
+      errors.push({ error: "The E-Mail is already in use." });
+    }
+    if (usernameVerify) {
+      errors.push({ error: "The Username is already in use." });
+    }
+    if (errors.length > 0) {
+      res.send(errors);
     } else {
       const newUser = new User({ name, last_name, username, email, password });
       newUser.password = await newUser.encryptPassword(password);
@@ -103,6 +113,31 @@ export const refreshToken = (req, res, next) => {
 
 export const profile = (req, res, next) => {
   res.send(req.user);
+};
+
+export const updateProfile = async (req, res, next) => {
+  try {
+    const id = req.user._id;
+
+    if (req.files?.profile_picture) {
+      const result = await uploadImage(req.files.profile_picture.tempFilePath);
+      await fs.remove(req.files.profile_picture.tempFilePath);
+      req.body.profile_picture = {
+        url: result.secure_url,
+        public_id: result.public_id,
+      };
+    }
+
+    const bodyUpdate = req.body;
+    const updatedProfile = await User.findByIdAndUpdate(
+      id,
+      { $set: bodyUpdate },
+      { new: true }
+    );
+    return res.json(updatedProfile);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
 };
 
 export const logout = (req, res, next) => {

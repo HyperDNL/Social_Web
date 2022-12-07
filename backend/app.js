@@ -3,6 +3,7 @@ import userRoutes from "./routes/users.routes.js";
 import { connectDB } from "./utils/database.js";
 import { COOKIE_SECRET, PORT, WHITELISTED_DOMAINS } from "./config/config.js";
 import session from "express-session";
+import fileUpload from "express-fileupload";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -34,6 +35,12 @@ const corsOptions = {
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  fileUpload({
+    tempFileDir: "./upload",
+    useTempFiles: true,
+  })
+);
 app.use(
   session({
     secret: COOKIE_SECRET,

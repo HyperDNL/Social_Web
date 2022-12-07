@@ -5,6 +5,7 @@ import {
   refreshToken,
   profile,
   logout,
+  updateProfile,
 } from "../controllers/users.controllers.js";
 import { verifyUser } from "../helpers/authenticate.js";
 import passport from "passport";
@@ -24,5 +25,7 @@ router.post("/refreshToken", refreshToken);
 router.get("/profile", verifyUser, profile);
 
 router.get("/logout", verifyUser, logout);
+
+router.put("/updateProfile", verifyUser, updateProfile);
 
 export default router;
