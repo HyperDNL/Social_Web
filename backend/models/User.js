@@ -44,9 +44,9 @@ const userSchema = new mongoose.Schema(
       default: "",
     },
     profile_picture: {
-      type: String,
+      url: String,
+      public_id: String,
       required: false,
-      default: "",
     },
     date_birth: {
       type: Date,
@@ -64,6 +64,12 @@ const userSchema = new mongoose.Schema(
       required: false,
       trim: false,
       default: "",
+    },
+    age: {
+      type: Number,
+      required: false,
+      trim: false,
+      default: 0,
     },
     followers: {
       type: [String],
