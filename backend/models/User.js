@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import Message from "./Message.js";
-import Post from "./Post.js";
 
 const Session = new mongoose.Schema({
   refreshToken: {
@@ -65,11 +64,10 @@ const userSchema = new mongoose.Schema(
       trim: false,
       default: "",
     },
-    age: {
-      type: Number,
+    videogames: {
+      type: [String],
       required: false,
-      trim: false,
-      default: 0,
+      default: [],
     },
     followers: {
       type: [String],
@@ -81,17 +79,8 @@ const userSchema = new mongoose.Schema(
       required: false,
       default: [],
     },
-    communities: {
-      type: [String],
-      required: false,
-      default: [],
-    },
     messages: {
       type: [Message.schema],
-      default: [],
-    },
-    posts: {
-      type: [Post.schema],
       default: [],
     },
     authStrategy: {
