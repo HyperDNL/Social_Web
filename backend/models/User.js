@@ -69,12 +69,24 @@ const userSchema = new mongoose.Schema(
       default: [],
     },
     followers: {
-      type: [Schema.Types.ObjectId],
+      type: [
+        {
+          user: {
+            type: Schema.ObjectId,
+          },
+        },
+      ],
       required: false,
       default: [],
     },
     following: {
-      type: [Schema.Types.ObjectId],
+      type: [
+        {
+          user: {
+            type: Schema.ObjectId,
+          },
+        },
+      ],
       required: false,
       default: [],
     },
