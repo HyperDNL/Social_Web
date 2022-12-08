@@ -1,5 +1,6 @@
 import express from "express";
 import userRoutes from "./routes/users.routes.js";
+import postRoutes from "./routes/posts.routes.js";
 import { connectDB } from "./utils/database.js";
 import { COOKIE_SECRET, PORT, WHITELISTED_DOMAINS } from "./config/config.js";
 import session from "express-session";
@@ -56,5 +57,6 @@ app.use(passport.session());
 
 // Rutas
 app.use("/users", userRoutes);
+app.use("/posts", postRoutes);
 
 export default app;
