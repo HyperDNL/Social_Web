@@ -1,6 +1,5 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
-import Message from "./Message.js";
 
 const Session = new mongoose.Schema({
   refreshToken: {
@@ -70,17 +69,13 @@ const userSchema = new mongoose.Schema(
       default: [],
     },
     followers: {
-      type: [String],
+      type: [Schema.Types.ObjectId],
       required: false,
       default: [],
     },
     following: {
-      type: [String],
+      type: [Schema.Types.ObjectId],
       required: false,
-      default: [],
-    },
-    messages: {
-      type: [Message.schema],
       default: [],
     },
     authStrategy: {
