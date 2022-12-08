@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const messageSchema = new mongoose.Schema(
+const postSchema = new mongoose.Schema(
   {
     user_id: {
       type: Schema.Types.ObjectId,
@@ -10,26 +10,29 @@ const messageSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    content: {
+    text: {
       type: String,
       required: true,
       trim: true,
+    },
+    image: {
+      url: String,
+      public_id: String,
+      required: false,
     },
     date: {
       type: Date,
       default: Date.now,
     },
-    from: {
-      type: String,
-      required: true,
+    likes: {
+      type: Number,
+      required: false,
+      default: 0,
     },
-    to: {
-      type: String,
-      required: true,
-    },
-    seen: {
-      type: Boolean,
-      default: false,
+    dislikes: {
+      type: Number,
+      required: false,
+      default: 0,
     },
   },
   {
@@ -38,4 +41,4 @@ const messageSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("Message", messageSchema);
+export default mongoose.model("Post", postSchema);
