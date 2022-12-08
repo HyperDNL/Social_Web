@@ -1,4 +1,4 @@
-import { deleteImage, uploadImage } from "../libs/cloudinary.js";
+import { uploadImage } from "../libs/cloudinary.js";
 import User from "../models/User.js";
 import {
   getToken,
