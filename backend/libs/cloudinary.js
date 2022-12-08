@@ -9,7 +9,7 @@ cloudinary.config({
 
 export const uploadImage = async (filePath) => {
   return await cloudinary.uploader.upload(filePath, {
-    folder: "profile_photos",
+    folder: "uploads_webapp",
   });
 };
 
