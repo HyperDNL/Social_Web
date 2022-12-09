@@ -22,7 +22,7 @@ export const signup = async (req, res) => {
       errors.push({ error: "The Username is already in use." });
     }
     if (errors.length > 0) {
-      res.send({ errors: errors });
+      res.json({ errors: errors });
     } else {
       const newUser = new User({ name, last_name, username, email, password });
       newUser.password = await newUser.encryptPassword(password);
@@ -112,7 +112,7 @@ export const refreshToken = (req, res, next) => {
 };
 
 export const profile = (req, res, next) => {
-  res.send(req.user);
+  res.json(req.user);
 };
 
 export const updateProfile = async (req, res, next) => {

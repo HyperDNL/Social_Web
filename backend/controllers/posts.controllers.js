@@ -10,7 +10,7 @@ export const userPosts = async (req, res) => {
   try {
     const user_id = req.user._id;
     const posts = await Post.find({ user_id: user_id }).sort({ date: "desc" });
-    return res.send(posts);
+    return res.json(posts);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
