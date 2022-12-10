@@ -8,17 +8,12 @@ import {
   updateProfile,
 } from "../controllers/users.controllers.js";
 import { verifyUser } from "../helpers/authenticate.js";
-import passport from "passport";
 
 const router = Router();
 
 router.post("/signup", signup);
 
-router.post(
-  "/signin",
-  passport.authenticate("login", { session: false }),
-  signin
-);
+router.post("/signin", signin);
 
 router.post("/refreshToken", refreshToken);
 

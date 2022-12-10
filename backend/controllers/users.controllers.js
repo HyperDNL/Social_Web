@@ -8,6 +8,7 @@ import {
 import { REFRESH_TOKEN_SECRET } from "../config/config.js";
 import jwt from "jsonwebtoken";
 import fs from "fs-extra";
+import passport from "passport";
 
 export const signup = async (req, res) => {
   try {
@@ -40,23 +41,33 @@ export const signup = async (req, res) => {
 
 export const signin = async (req, res, next) => {
   try {
-    const token = getToken({ _id: req.user._id });
-    const refreshToken = getRefreshToken({ _id: req.user._id });
-    User.findById(req.user._id).then(
-      (user) => {
-        user.refreshToken.push({ refreshToken });
-        user.save((err, user) => {
-          if (err) {
-            res.statusCode = 500;
-            res.send(err);
-          } else {
-            res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
-            res.send({ success: true, token });
-          }
-        });
-      },
-      (err) => next(err)
-    );
+    passport.authenticate("login", { session: false }, (error, user, info) => {
+      if (error) {
+        res.status(401).json(error);
+      } else {
+        if (!user) {
+          res.status(401).json(info);
+        } else {
+          const token = getToken({ _id: user._id });
+          const refreshToken = getRefreshToken({ _id: user._id });
+          User.findById(user._id).then(
+            (user) => {
+              user.refreshToken.push({ refreshToken });
+              user.save((err, user) => {
+                if (err) {
+                  res.statusCode = 500;
+                  res.send(err);
+                } else {
+                  res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+                  res.send({ success: true, token });
+                }
+              });
+            },
+            (err) => next(err)
+          );
+        }
+      }
+    })(req, res);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
