@@ -42,7 +42,11 @@ const userSchema = new mongoose.Schema(
       default: "",
     },
     profile_picture: {
-      url: String,
+      url: {
+        type: String,
+        default:
+          "https://res.cloudinary.com/dh9ph7mpz/image/upload/v1670761199/uploads_webapp/profile_picture_template_tras7r.jpg",
+      },
       public_id: String,
       required: false,
     },

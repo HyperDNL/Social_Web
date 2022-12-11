@@ -104,8 +104,7 @@ export const refreshToken = (req, res, next) => {
             );
 
             if (tokenIndex === -1) {
-              res.statusCode = 401;
-              res.send("Unauthorized");
+              res.json({ message: "Unauthorized" });
             } else {
               const token = getToken({ _id: userId });
               const newRefreshToken = getRefreshToken({ _id: userId });
@@ -113,27 +112,24 @@ export const refreshToken = (req, res, next) => {
               user.save((err, user) => {
                 if (err) {
                   res.statusCode = 500;
-                  res.send(err);
+                  res.json(err);
                 } else {
                   res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
-                  res.send({ success: true, token });
+                  res.json({ success: true, token });
                 }
               });
             }
           } else {
-            res.statusCode = 401;
-            res.send("Unauthorized");
+            res.json({ message: "Unauthorized" });
           }
         },
         (err) => next(err)
       );
     } catch (err) {
-      res.statusCode = 401;
-      res.send("Unauthorized");
+      res.json({ message: "Unauthorized" });
     }
   } else {
-    res.statusCode = 401;
-    res.send("Unauthorized");
+    res.json({ message: "Unauthorized" });
   }
 };
 
