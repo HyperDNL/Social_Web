@@ -22,10 +22,25 @@ export const signup = async (req, res) => {
     if (usernameVerify) {
       errors.push({ error: "The Username is already in use." });
     }
+    if (password.length < 4) {
+      errors.push({ error: "Password must be at least 4 characters." });
+    }
+    if (username.length < 4) {
+      errors.push({ error: "Username must be at least 4 characters." });
+    }
+    if (!name || !last_name || !username || !email || !password) {
+      errors.push({ error: "Please fill in the missing spaces." });
+    }
     if (errors.length > 0) {
       res.json({ errors: errors });
     } else {
-      const newUser = new User({ name, last_name, username, email, password });
+      const newUser = new User({
+        name,
+        last_name,
+        username,
+        email,
+        password,
+      });
       newUser.password = await newUser.encryptPassword(password);
       const token = getToken({ _id: newUser._id });
       const refreshToken = getRefreshToken({ _id: newUser._id });
@@ -43,10 +58,10 @@ export const signin = async (req, res, next) => {
   try {
     passport.authenticate("login", { session: false }, (error, user, info) => {
       if (error) {
-        res.status(401).json(error);
+        res.json({ error: true, message: error.message });
       } else {
         if (!user) {
-          res.status(401).json(info);
+          res.json({ error: true, message: info.message });
         } else {
           const token = getToken({ _id: user._id });
           const refreshToken = getRefreshToken({ _id: user._id });
@@ -59,7 +74,7 @@ export const signin = async (req, res, next) => {
                   res.send(err);
                 } else {
                   res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
-                  res.send({ success: true, token });
+                  res.json({ success: true, token });
                 }
               });
             },
