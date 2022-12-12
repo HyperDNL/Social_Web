@@ -19,7 +19,9 @@ function App() {
 
   const verifyUser = useCallback(() => {
     axios
-      .post("http://localhost:3500/users/refreshToken")
+      .post("http://localhost:3500/users/refreshToken", {
+        credentials: "include",
+      })
       .then(async (response) => {
         if (response.data.message !== "Unauthorized") {
           setUserContext((oldValues) => {
@@ -30,7 +32,7 @@ function App() {
             return { ...oldValues, token: null };
           });
         }
-        setTimeout(verifyUser, 5 * 60 * 1000);
+        setTimeout(verifyUser, 10 * 60 * 1000);
       });
   }, [setUserContext]);
 

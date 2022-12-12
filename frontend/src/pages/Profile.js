@@ -2,7 +2,6 @@ import React, { useCallback, useContext, useEffect } from "react";
 import { UserContext } from "../context/UsersContext";
 import { Loader } from "../components/Loader";
 import axios from "axios";
-import { useNavigate } from "react-router";
 import {
   MDBCol,
   MDBContainer,
@@ -11,14 +10,12 @@ import {
   MDBCardText,
   MDBCardBody,
   MDBCardImage,
-  MDBBtn,
   MDBTypography,
 } from "mdb-react-ui-kit";
+import moment from "moment";
 
 export const Profile = () => {
   const [userContext, setUserContext] = useContext(UserContext);
-
-  const navigate = useNavigate();
 
   const fetchUserDetails = useCallback(() => {
     axios
@@ -52,29 +49,6 @@ export const Profile = () => {
     }
   }, [userContext.details, fetchUserDetails]);
 
-  const refetchHandler = () => {
-    setUserContext((oldValues) => {
-      return { ...oldValues, details: undefined };
-    });
-  };
-
-  const logoutHandler = () => {
-    axios
-      .get("http://localhost:3500/users/logout", {
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userContext.token}`,
-        },
-      })
-      .then(async (response) => {
-        setUserContext((oldValues) => {
-          return { ...oldValues, details: undefined, token: null };
-        });
-        window.localStorage.setItem("logout", Date.now());
-        navigate("/");
-      });
-  };
   return userContext.details === null ? (
     <Loader />
   ) : !userContext.details ? (
@@ -110,18 +84,28 @@ export const Profile = () => {
                 </div>
               </div>
               <div className="p-4" style={{ backgroundColor: "#2D3757" }}>
-                <div className="d-flex justify-content-end text-center py-1">
+                <div className="d-flex justify-content-center text-center py-1">
                   <div>
-                    <MDBCardText className="mb-1 h5">4</MDBCardText>
-                    <MDBCardText className="small mb-0">Posts</MDBCardText>
+                    <MDBCardText className="small mb-0">Genre</MDBCardText>
+                    <MDBCardText className="mb-1 h5">
+                      {userContext.details.genre}
+                    </MDBCardText>
                   </div>
-                  <div className="px-3">
-                    <MDBCardText className="mb-1 h5">0</MDBCardText>
-                    <MDBCardText className="small mb-0">Followers</MDBCardText>
+                  <div className="px-5">
+                    <MDBCardText className="small mb-0">
+                      Phone Number
+                    </MDBCardText>
+                    <MDBCardText className="mb-1 h5">
+                      {userContext.details.phone_number}
+                    </MDBCardText>
                   </div>
                   <div>
-                    <MDBCardText className="mb-1 h5">0</MDBCardText>
-                    <MDBCardText className="small mb-0">Following</MDBCardText>
+                    <MDBCardText className="small mb-0">
+                      Date of Birthday
+                    </MDBCardText>
+                    <MDBCardText className="mb-1 h5">
+                      {moment(userContext.details.date_birth).format("LL")}
+                    </MDBCardText>
                   </div>
                 </div>
               </div>
