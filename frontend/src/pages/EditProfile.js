@@ -38,7 +38,7 @@ export function EditProfile() {
 
     axios
       .put(
-        "/users/updateProfile",
+        "http://localhost:3500/users/updateProfile",
         {
           name,
           last_name,

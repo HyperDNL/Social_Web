@@ -19,7 +19,7 @@ export const Profile = () => {
 
   const fetchUserDetails = useCallback(() => {
     axios
-      .get("/users/profile", {
+      .get("http://localhost:3500/users/profile", {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",

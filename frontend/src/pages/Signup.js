@@ -26,7 +26,7 @@ export function Signup() {
     const genericErrorMessage = "Something went wrong! Please try again later.";
 
     axios
-      .post("/users/signup", {
+      .post("http://localhost:3500/users/signup", {
         name,
         last_name,
         username,
