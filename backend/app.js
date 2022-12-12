@@ -8,9 +8,12 @@ import fileUpload from "express-fileupload";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 
 // Inicializaciones
 const app = express();
+const __dirname = dirname(fileURLToPath(import.meta.url));
 connectDB();
 import "./config/LocalStrategy.js";
 import "./config/JwtStrategy.js";
@@ -58,5 +61,7 @@ app.use(passport.session());
 // Rutas
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
+
+app.use(express.static(join(__dirname, "../frontend/build")));
 
 export default app;
