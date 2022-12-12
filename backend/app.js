@@ -2,11 +2,12 @@ import express from "express";
 import userRoutes from "./routes/users.routes.js";
 import postRoutes from "./routes/posts.routes.js";
 import { connectDB } from "./utils/database.js";
-import { COOKIE_SECRET, PORT } from "./config/config.js";
+import { COOKIE_SECRET, PORT, WHITELISTED_DOMAINS } from "./config/config.js";
 import session from "express-session";
 import fileUpload from "express-fileupload";
 import passport from "passport";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 // Inicializaciones
 const app = express();
@@ -17,6 +18,20 @@ import "./helpers/authenticate.js";
 
 // Configuraciones
 app.set("port", PORT);
+
+const whitelist = WHITELISTED_DOMAINS ? WHITELISTED_DOMAINS.split(",") : [];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+
+  credentials: true,
+};
 
 // Middlewares
 app.use(express.json());
@@ -36,6 +51,7 @@ app.use(
   })
 );
 app.use(cookieParser(COOKIE_SECRET));
+app.use(cors(corsOptions));
 app.use(passport.initialize());
 app.use(passport.session());
 

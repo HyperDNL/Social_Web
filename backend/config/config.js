@@ -12,3 +12,4 @@ export const COOKIE_SECRET = process.env.COOKIE_SECRET;
 export const CLOUD_NAME = process.env.CLOUD_NAME;
 export const API_KEY = process.env.API_KEY;
 export const API_SECRET = process.env.API_SECRET;
+export const WHITELISTED_DOMAINS = process.env.WHITELISTED_DOMAINS;
