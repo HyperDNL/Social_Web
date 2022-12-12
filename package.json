@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon backend/index.js --ignore frontend"
+    "dev": "nodemon backend/index.js --ignore frontend",
+    "build": "npm run build --prefix frontend",
+    "start": "node backend"
   },
   "repository": {
     "type": "git",
