@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon backend/index.js --ignore frontend",
-    "build": "npm run build --prefix frontend",
+    "build": "npm install --prefix frontend && npm run build --prefix frontend",
     "start": "node backend"
   },
   "repository": {
