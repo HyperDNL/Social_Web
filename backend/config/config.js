@@ -9,7 +9,6 @@ export const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
 export const SESSION_EXPIRY = process.env.SESSION_EXPIRY;
 export const REFRESH_TOKEN_EXPIRY = process.env.REFRESH_TOKEN_EXPIRY;
 export const COOKIE_SECRET = process.env.COOKIE_SECRET;
-export const WHITELISTED_DOMAINS = process.env.WHITELISTED_DOMAINS;
 export const CLOUD_NAME = process.env.CLOUD_NAME;
 export const API_KEY = process.env.API_KEY;
 export const API_SECRET = process.env.API_SECRET;
