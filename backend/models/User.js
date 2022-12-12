@@ -59,7 +59,7 @@ const userSchema = new mongoose.Schema(
       type: Number,
       required: false,
       trim: true,
-      default: 0,
+      default: null,
     },
     genre: {
       type: String,
