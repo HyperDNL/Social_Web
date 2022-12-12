@@ -19,7 +19,7 @@ function App() {
 
   const verifyUser = useCallback(() => {
     axios
-      .post("http://localhost:3500/users/refreshToken", {
+      .post("/users/refreshToken", {
         credentials: "include",
       })
       .then(async (response) => {
