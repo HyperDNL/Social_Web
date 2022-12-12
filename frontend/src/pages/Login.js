@@ -23,7 +23,7 @@ export function Login() {
     const genericErrorMessage = "Something went wrong! Please try again later.";
 
     axios
-      .post("http://localhost:3500/users/signin", {
+      .post("/users/signin", {
         email,
         password,
       })
